@@ -1,36 +1,14 @@
 import datetime
 from typing import List
 
-
-class Color():
-	RED = (128, 32, 64)
-
-
-class Tag():
-	def __init__(self):
-		self.text = ''
-		self.color = Color.RED
-
-	def __init__(self, text: str, color: Color):
-		self.text = text
-		self.color = Color.RED
-
-
 class Task():
 	'''
 	
 	'''
-	def __init__(self):
-		self.text = ''
-		self.tag = Tag()
-		self.due = datetime.datetime.today() + datetime.timedelta(days=7)
-		self.isOpen = True
-		self.isHidden = False
-
-	def __init__(self, text: str, tag: str, due: str, isOpen: bool):
-		self.text = text
-		self.tag = Tag(tag, Color.RED)
-		# self.due = datetime.strptime(due, '%b %d')
+	def __init__(self, label: str, tag: str, due: str, isOpen: bool, color=None):
+		self.label = label
+		self.tag = tag
+		self.color = color
 		self.due = self.ParseDue(due)
 		self.isOpen = isOpen
 		self.isHidden = False
@@ -72,49 +50,12 @@ class Task():
 
 		return date
 
-		# datetime.datetime.strptime(due, '%b %d')
-
+	# Taskmanager depends on this which is stupid and i should fix later
 	def __repr__(self) -> str:
 		if self.isOpen:
 			isOpenString = 'open'
 		else:
 			isOpenString = 'closed'
 		
-		return ''.join([self.text, '\t#', self.tag.text, '\t@', self.due.strftime('%b %d %Y'), '\t%', isOpenString])
+		return ''.join([self.label, '\t#', self.tag, '\t@', self.due.strftime('%b %d %Y'), '\t%', isOpenString])
 		
-
-class TaskList():
-	'''
-	docstring
-	'''
-	def __init__(self):
-		self._tasks = [] # type: List[Task]
-
-
-	def Delete(self, index=None, target=None,):
-		'''
-		target="old": closed and > 1 week due date
-		target="closed": all closed
-		target="all": delete everything
-		'''
-		pass
-
-	def Add(self, task: Task):
-		'''
-		'''
-		pass
-
-	def Hide(self, ):
-		'''
-		docstring
-		'''
-		pass
-
-
-
-### testing
-
-
-# task = Task("hwk 3", "eecs 247", "Feb 28")
-
-# print(task.due)

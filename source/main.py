@@ -1,16 +1,17 @@
-from consolemanager import InputManager
-from re import L
+from livelayoutview import *
 
-from rich import console
-from layout import *
-from rich.console import Console
+testing = False
+
 
 def Main():
 
+	liveLayout = LiveLayoutView()
+
+	liveLayout.LiveRender()
 	# inputManager = InputManager()
 	# console = Console()
 	# console.print(layout)
-	pass
+	
 	# inputManager.KeyCapture()
 
 
