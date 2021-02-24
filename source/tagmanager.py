@@ -10,6 +10,9 @@ class TagManager():
 	'''
 	docstring
 	'''
+
+
+
 	def __init__(self):
 		self.filePath = "/Users/aryadaroui/Documents/GitHub/hud/tags.txt"
 		self.tags = self.LoadTags()

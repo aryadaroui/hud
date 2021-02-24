@@ -1,0 +1,20 @@
+task	#tag	@due	%status
+
+hwk -1	#class A	@Feb 19 2021	%open
+hwk 0	#class A	@Feb 20 2021	%open
+hwk 1	#class A	@Feb 21 2021	%closed
+hwk 2	#class B	@Feb 22 2021	%closed
+hwk 3	#class B	@Feb 23 2021	%open
+hwk 4	#class B	@Feb 24 2021	%open
+hwk 5	#class B	@Feb 25 2021	%open
+hwk 6	#class C	@Feb 26 2021	%open
+hwk 7	#class C	@Feb 27 2021	%open
+hwk 8	#class C	@Feb 28 2021	%closed
+hwk 9	#class C	@Feb 28 2021	%closed
+hwk 10	#class A	@Mar 01 2021	%closed
+hwk 11	#class B	@Mar 02 2021	%open
+hwk 12	#class B	@Mar 03 2021	%open
+hwk 13	#class C	@Mar 04 2021	%open
+hwk 14	#class C	@Mar 05 2021	%open
+hwk 15	#class C	@Mar 06 2021	%open
+hwk 16	#class C	@Mar 07 2021	%open

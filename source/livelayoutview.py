@@ -1,5 +1,7 @@
 # from rich import pretty
 from rich import prompt
+from rich.align import AlignMethod
+from rich.console import JustifyMethod
 # from taskview import RichTaskGrid
 # from consoleview import ConsoleView
 from calendarview import *
@@ -24,6 +26,17 @@ traceback.install()
 
 
 
+# TODO: remove overview. Add open, closed, hidden count to task view. add total for all tags at top
+# TODO: add tag to the right of the calendar for each task label
+# TODO: Color code everything!
+# italicize tags wher available
+
+
+
+
+
+
+
 class LiveLayoutView():
 	'''
 	docstring
@@ -32,7 +45,7 @@ class LiveLayoutView():
 		self.groupByTag = True
 		self.taskManager = TaskManager()
 		self.calendarView = CalendarView(self.taskManager.tasks)
-		self.overview = Overview(self.taskManager.tasks)
+		# self.overview = Overview(self.taskManager.tasks)
 		self.taskView = TaskView(self.taskManager.tasks, groupByTag=self.groupByTag)
 		# self.layout = self.MakeLayout()
 
@@ -40,19 +53,26 @@ class LiveLayoutView():
 	def RichLayout(self) -> Layout:
 		layout = Layout()
 		layout.split(
-		Layout(name="upper"),
-		Layout(Panel(self.taskView.RichGrid(), title="Tasks"), name="Tasks"),
+		# Layout(name="upper"),
+		Layout(" ", name="BufferTop"),
+		Layout(Panel(self.calendarView.RichGrid(), title="Calendar", style='grey50'), name="Calendar"),
+		Layout(Panel(self.taskView.RichGrid(), title="Tasks", style= 'grey50'), name="Tasks"),
 		Layout(Panel(str(datetime.now()), title="Console"), name="Console")
+		# Layout(" ", name="BufferBot")
 		)
 
-		layout["upper"].split(
-			Layout(Panel(self.calendarView.RichGrid(), title="Calendar"), name="Calendar"),
-			Layout(Panel(self.overview.RichGrid(), title="Overview"), name="Overview"),
-			direction="horizontal"
-		)		
+		# layout["upper"].split(
+		# 	Layout(Panel(self.calendarView.RichGrid(), title="Calendar"), name="Calendar"),
+		# 	# Layout(Panel(self.overview.RichGrid(), title="Overview"), name="Overview"),
+		# 	direction="horizontal"
+		# )		
 
 
-		layout['Tasks'].ratio = 2
+		# layout['Calendar'].ratio = 2.5
+		# layout['Overview'].ratio = 
+		layout["BufferTop"].size = 1
+		layout["Tasks"].ratio = 1.1
+		# layout["BufferBot"].size = 1
 		layout['Console'].size = 4
 		return layout
 

@@ -3,7 +3,7 @@ from task import Task
 from tagmanager import TagManager
 import re
 
-from main import testing
+# from main import testing
 
 
 
@@ -15,11 +15,28 @@ class TaskManager():
 		self.filePath = "/Users/aryadaroui/Documents/GitHub/hud/tasks.txt"
 		self.tasks = self.LoadTasks()
 		self.tagManager = TagManager()
+		self.LoadAndSetTasksColors()
 
 	# def  __init__(self, tasks: List[Task]):
 	# 	self.tasks = tasks
 	# 	self.tagManager = TagManager(self.tasks)
 	# 	self.filePath = "/Users/aryadaroui/Documents/GitHub/hud/tasks.txt"
+
+	def LoadAndSetTasksColors(self):
+		'''
+		sets the colors for self.tasks. This changes self.tasks; does not return anything
+		'''
+		tags = self.tagManager.LoadTags()
+
+		for task in self.tasks:
+			if task.tag in tags:
+				task.color = tags[task.tag]
+			else:
+				task.color = 'white'
+
+		# a = 1
+
+	
 
 	def Delete(self, label: str, tag: str):
 		'''
@@ -107,7 +124,7 @@ class TaskManager():
 
 
 ### Testing
-if testing:
+if True:
 	taskManager = TaskManager()
 	tasks = taskManager.LoadTasks()
 	print(tasks)

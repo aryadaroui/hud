@@ -13,7 +13,7 @@ traceback.install()
 class CalendarView():
 
 	def __init__(self, tasks: List[Task]) -> None:
-		self.tasks = tasks
+		self.tasks = sorted(tasks, key=lambda x: x.DaysLeft(), reverse=False)
 
 		self.daysOut = 14 # how many days ahead to display
 
@@ -35,28 +35,33 @@ class CalendarView():
 				# print('    ', end='')
 				monthLine = ''.join([monthLine, '    '])
 		
-		return monthLine
+		return ' [grey70]' + monthLine + '[/grey70]'
 
 	def _DayCell(self) -> str:
 		dayLine = ''
 
 		for dayOffset in range(self.daysOut):
 			day = datetime.datetime.today() + datetime.timedelta(days=dayOffset)
-			if day.weekday() < 5:
-				dayLine = ''.join([dayLine, '[blue]', day.strftime('%d'), '[/blue]  '])
-			else:
-				dayLine = ''.join([dayLine, '[red]', day.strftime('%d'), '[/red]  '])
+			if day.weekday() < 5: # weekday
+				dayLine = ''.join([dayLine, '[grey42]', day.strftime('%d'), '[/grey42]  '])
+			else: # weekend
+				dayLine = ''.join([dayLine, '[grey70]', day.strftime('%d'), '[/grey70]  '])
 
-		return dayLine
+		return ' ' + dayLine
 
 	@staticmethod
 	def _ProgressCell(task: Task):
 		'''
 		docstring
 		'''
-		return ''.join(['▝', '▔▔▔▔' * (task.DaysLeft()+1),'▀▀'])
+		string = ''
 
+		if task.DaysLeft() < 0:
+			string = ''.join(["[deep_pink2]  LATE                                                    ", '[{color}]'.format(color=task.color), task.tag, '[/{color}]'.format(color=task.color)])		
+		else:					
+			string = ''.join(['  ', '────' * (task.DaysLeft()+1),'▬▬', '[black]' + '────'*(14-task.DaysLeft()-1-1) + ' [/black] ' + ''.join(['[{color}]'.format(color=task.color), task.tag, '[/{color}]'.format(color=task.color)])])
 
+		return string
 
 	# TODO: handle overdue tasks
 	def RichGrid(self):
@@ -65,22 +70,17 @@ class CalendarView():
 		'''
 		grid = Table.grid(expand=True)
 		grid.add_column(justify='right', no_wrap=True)
-		grid.add_column( no_wrap=True)
-		grid.add_row(" ", " " + self._MonthCell())
-		grid.add_row(" ", " " + self._DayCell())
+		grid.add_column(justify='left', no_wrap=True)
+		# grid.add_column(justify='left', no_wrap=True)
+		# grid.add_column(justify='left', no_wrap=True)
+		grid.add_row(" ", " " + self._MonthCell()+ '')
+		grid.add_row(" ", " " + self._DayCell()+ '')
 
-		# this is a stupid way of doing this.
-		# TODO fix tasklist architecture
 		for task in self.tasks:
-			# print(task.due)
-			if task.DaysLeft() < self.daysOut - 1:
-
-				if task.DaysLeft() < 0:
-					grid.add_row(task.label, "▝[blink] OVERDUE ")				
-				else:					
-					grid.add_row(task.label, self._ProgressCell(task))
-		grid.add_row(" ", " " + self._DayCell())
-		grid.add_row(" ", " " + self._MonthCell())
+			if task.DaysLeft() < self.daysOut - 1 and task.isOpen:			
+				grid.add_row(task.label + '', self._ProgressCell(task), style="grey85")
+		# grid.add_row(" ", " " + self._DayCell()+ '')
+		# grid.add_row(" ", " " + self._MonthCell()+ '')
 
 		return grid
 
