@@ -102,7 +102,7 @@ class LiveLayoutView():
 			# term.inkey(timeout=5)
 			live.update(self.RichLayout(), refresh=True)
 			while self.loop:
-				self.loop = self.inputManager.IO_Prompt() # TODO this isn't an explicit way of showing IO is being done here. should change.
+				self.loop = self.inputManager.IO_Prompt() # TODO: this isn't an explicit way of showing IO is being done here. should change.
 				live.update(self.RichLayout(), refresh=True)
 
 

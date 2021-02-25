@@ -55,11 +55,11 @@ class InputManager():
 		
 		
 
-	def _ExecuteInput(self, input: str):
+	def _ExecuteInput(self, inputString: str):
 		'''
 		docstring
 		'''
-		pass
+		inputString.split()
 
 
 
