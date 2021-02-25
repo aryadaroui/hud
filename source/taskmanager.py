@@ -124,7 +124,7 @@ class TaskManager():
 
 
 ### Testing
-if True:
+if False:
 	taskManager = TaskManager()
 	tasks = taskManager.LoadTasks()
 	print(tasks)
