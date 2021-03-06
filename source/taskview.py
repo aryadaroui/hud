@@ -11,7 +11,8 @@ class TaskView():
 	docstring
 	'''
 	def __init__(self, tasks: List[Task], groupByTag=False):
-		self.tasks = sorted(tasks, key=lambda x: x.DaysLeft(), reverse=False)
+		tasks = sorted(tasks, key=lambda x: x.DaysLeft(), reverse=False)
+		self.tasks = sorted(tasks, key=lambda task: task.isOpen, reverse=True)
 		self.groupByTag = groupByTag
 
 	def _LabelCell(self, task: Task):
@@ -48,7 +49,9 @@ class TaskView():
 
 
 		if daysLeft < 0 and task.isOpen:
-			string = "[underline][deep_pink2]▏   [deep_pink2] LATE    [/deep_pink2]▕[/underline]"
+			string = "[underline][deep_pink2]▏    LATE    ▕[/deep_pink2][/underline]"
+		elif daysLeft < 0 and not task.isOpen:
+			string = "              "		
 		elif daysLeft < 0:
 			string = "[underline]▏            ▕[/underline]"
 

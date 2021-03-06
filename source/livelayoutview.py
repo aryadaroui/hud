@@ -38,12 +38,6 @@ traceback.install()
 # TODO: Color code everything!
 # italicize tags wher available
 
-
-
-
-
-
-
 class LiveLayoutView():
 	'''
 	docstring

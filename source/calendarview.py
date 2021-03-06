@@ -13,7 +13,8 @@ traceback.install()
 class CalendarView():
 
 	def __init__(self, tasks: List[Task]) -> None:
-		self.tasks = sorted(tasks, key=lambda x: x.DaysLeft(), reverse=False)
+		# tasks = sorted(tasks, key=lambda task: task.DaysLeft(), reverse=False)
+		self.tasks = sorted(tasks, key=lambda task: task.DaysLeft(), reverse=False)
 
 		self.daysOut = 14 # how many days ahead to display
 
@@ -69,16 +70,16 @@ class CalendarView():
 		docstring
 		'''
 		grid = Table.grid(expand=True)
-		grid.add_column(justify='right', no_wrap=True)
+		grid.add_column(justify='right', no_wrap=True, max_width=16)
 		grid.add_column(justify='left', no_wrap=True)
 		# grid.add_column(justify='left', no_wrap=True)
 		# grid.add_column(justify='left', no_wrap=True)
-		grid.add_row(" ", " " + self._MonthCell()+ '')
-		grid.add_row(" ", " " + self._DayCell()+ '')
+		grid.add_row(" ", " " + self._MonthCell())
+		grid.add_row(" ", " " + self._DayCell())
 
 		for task in self.tasks:
 			if task.DaysLeft() < self.daysOut - 1 and task.isOpen:			
-				grid.add_row(task.label + '', self._ProgressCell(task), style="grey85")
+				grid.add_row(task.label, self._ProgressCell(task), style="grey85")
 		# grid.add_row(" ", " " + self._DayCell()+ '')
 		# grid.add_row(" ", " " + self._MonthCell()+ '')
 

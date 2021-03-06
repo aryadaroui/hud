@@ -14,7 +14,7 @@ class InputManager():
 	'''
 	def __init__(self) -> None:
 		self.userInput = ''
-		self.output = ' Howdy your input was '
+		self.output = 'Howdy your input was '
 
 	def IO_Prompt(self):
 		'''
@@ -48,7 +48,7 @@ class InputManager():
 		'''
 		grid = Table.grid(expand=True)
 		grid.add_column(justify='left')
-		grid.add_column(no_wrap=True)
+		grid.add_column(justify='right', no_wrap=True)
 
 		grid.add_row(self.output, datetime.datetime.now().strftime('%H:%M:%S'), style='green')
 		return grid
