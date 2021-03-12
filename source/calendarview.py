@@ -6,20 +6,19 @@ import datetime
 from typing import List
 from rich.console import Console
 
+from taskmanager import TaskManager
+
 traceback.install()
 
 
 #TODO make calendarview be init by a single tasklist object
 class CalendarView():
 
-	def __init__(self, tasks: List[Task]) -> None:
-		# tasks = sorted(tasks, key=lambda task: task.DaysLeft(), reverse=False)
-		self.tasks = sorted(tasks, key=lambda task: task.DaysLeft(), reverse=False)
-
+	def __init__(self, taskManager: TaskManager) -> None:
+		self.taskManager = taskManager # passed by 'reference'. do not alter
 		self.daysOut = 14 # how many days ahead to display
 
 	def _MonthCell(self) -> str:
-		
 		monthLine = ''
 
 		for dayOffset in range(self.daysOut):
@@ -69,6 +68,9 @@ class CalendarView():
 		'''
 		docstring
 		'''
+		tasks = self.taskManager.tasks
+		tasks = sorted(tasks, key=lambda task: task.DaysLeft(), reverse=False)
+
 		grid = Table.grid(expand=True)
 		grid.add_column(justify='right', no_wrap=True, max_width=16)
 		grid.add_column(justify='left', no_wrap=True)
@@ -77,7 +79,7 @@ class CalendarView():
 		grid.add_row(" ", " " + self._MonthCell())
 		grid.add_row(" ", " " + self._DayCell())
 
-		for task in self.tasks:
+		for task in tasks:
 			if task.DaysLeft() < self.daysOut - 1 and task.isOpen:			
 				grid.add_row(task.label, self._ProgressCell(task), style="grey85")
 		# grid.add_row(" ", " " + self._DayCell()+ '')

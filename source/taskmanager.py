@@ -34,15 +34,101 @@ class TaskManager():
 			else:
 				task.color = 'white'
 
-		# a = 1
+	def Add(self, label, tag, due):
+		'''
+		docstring
+		'''
 
-	
+		status = ''
+
+		if label != '':
+			self.tasks.append(Task(label, tag, due))
+			self.SaveTasks(self.tasks)
+			self.LoadAndSetTasksColors()
+			status = 'added: {label} #{tag} @{due}'.format(label=label, tag=tag, due=due)
+
+
+		return status
+
 
 	def Delete(self, label: str, tag: str):
 		'''
 		
 		'''
-		pass
+		# TODO: does not detect if duplicates under same tag
+
+		status = ''
+		label = label.strip()
+		tag = tag.strip()
+
+		if tag == '':
+			filteredTasks = list(filter(lambda task: task.label == label, self.tasks))
+			if len(filteredTasks) == 1:
+				self.tasks.remove(filteredTasks[0])
+				self.SaveTasks(self.tasks)
+				status = "deleted task: {task}".format(task=filteredTasks[0])
+			elif len(filteredTasks) > 1:
+				status = "need tag to clarify"
+			else:
+				status = "could not find label"
+		else:
+			filteredTasks = list(filter(lambda task: task.label == label and task.tag == tag, self.tasks))
+			if len(filteredTasks) == 1:
+				self.tasks.remove(filteredTasks[0])
+				self.SaveTasks(self.tasks)
+				status = "deleted task: {task}".format(task=filteredTasks[0])
+			elif len(filteredTasks) > 1:
+				status = "duplicates detected. deleted one task: {task}".format(task=filteredTasks[0])
+				self.tasks.remove(filteredTasks[0])
+				self.SaveTasks(self.tasks)
+			else:
+				status = "could not find label"
+
+		return status
+
+		# for task in self.tasks:
+
+		# self.tasks.remove(Task(label, tag, due,))
+
+	def Close(self, label: str, tag: str):
+
+		status = ''
+		label = label.strip()
+		tag = tag.strip()
+
+		if tag == '':
+			filteredTasks = list(filter(lambda task: task.label == label, self.tasks))
+			if len(filteredTasks) == 1:
+				self.tasks[self.tasks.index(filteredTasks[0])].isOpen = False
+				# self.tasks.remove(filteredTasks[0])
+				self.SaveTasks(self.tasks)
+				status = "clsed task: {task}".format(task=filteredTasks[0])
+			elif len(filteredTasks) > 1:
+				status = "need tag to clarify"
+			else:
+				status = "could not find label"
+		else:
+			filteredTasks = list(filter(lambda task: task.label == label and task.tag == tag, self.tasks))
+			if len(filteredTasks) == 1:
+				self.tasks[self.tasks.index(filteredTasks[0])].isOpen = False
+				self.SaveTasks(self.tasks)
+				status = "closed task: {task}".format(task=filteredTasks[0])
+			elif len(filteredTasks) > 1:
+				status = "duplicates detected. clozed one task: {task}".format(task=filteredTasks[0])
+				self.tasks.remove(filteredTasks[0])
+				self.SaveTasks(self.tasks)
+			else:
+				status = "could not find label"
+
+		return status
+
+	def Toggle(self, label, tag):
+		'''
+		docstring
+		'''
+		count = 0
+		for task in self.tasks:
+			pass
 
 	def DeleteOld(self):
 		'''
@@ -69,12 +155,6 @@ class TaskManager():
 		pass
 
 	def Edit(self):
-		'''
-		docstring
-		'''
-		pass
-
-	def Sort(self):
 		'''
 		docstring
 		'''

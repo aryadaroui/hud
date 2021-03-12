@@ -32,24 +32,25 @@ import datetime
 traceback.install()
 
 
-
-# TODO: remove overview. Add open, closed, hidden count to task view. add total for all tags at top
-# TODO: add tag to the right of the calendar for each task label
-# TODO: Color code everything!
 # italicize tags wher available
 
 class LiveLayoutView():
 	'''
 	docstring
 	'''
+
+
+	### TODO, send taskmanager itself for a single source of truth.
+
+
 	def __init__(self) -> None:
 		self.groupByTag = True
 		self.taskManager = TaskManager()
-		self.calendarView = CalendarView(self.taskManager.tasks)
+		self.calendarView = CalendarView(self.taskManager)
 		# self.overview = Overview(self.taskManager.tasks)
-		self.taskView = TaskView(self.taskManager.tasks, groupByTag=self.groupByTag)
+		self.taskView = TaskView(self.taskManager, groupByTag=self.groupByTag)
 		# self.layout = self.MakeLayout()
-		self.inputManager = InputManager()
+		self.inputManager = InputManager(self.taskManager)
 		self.loop = True
 		# self.input = ''
 
@@ -96,7 +97,7 @@ class LiveLayoutView():
 			# term.inkey(timeout=5)
 			live.update(self.RichLayout(), refresh=True)
 			while self.loop:
-				self.loop = self.inputManager.IO_Prompt() # TODO: this isn't an explicit way of showing IO is being done here. should change.
+				self.loop = self.inputManager.IO_Prompt() # returns false if user inputs exit. TODO: this isn't an explicit way of showing IO is being done here. should change.
 				live.update(self.RichLayout(), refresh=True)
 
 

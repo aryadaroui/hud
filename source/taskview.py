@@ -4,15 +4,20 @@ from rich.table import Table
 from typing import List
 
 from rich.console import Console
+
+from taskmanager import TaskManager
 traceback.install()
 
 class TaskView():
 	'''
 	docstring
 	'''
-	def __init__(self, tasks: List[Task], groupByTag=False):
-		tasks = sorted(tasks, key=lambda x: x.DaysLeft(), reverse=False)
-		self.tasks = sorted(tasks, key=lambda task: task.isOpen, reverse=True)
+	def __init__(self, taskManager: TaskManager, groupByTag=False):
+
+		# tasks = taskManager.tasks
+		# tasks = sorted(tasks, key=lambda x: x.DaysLeft(), reverse=False)
+		# self.tasks = sorted(tasks, key=lambda task: task.isOpen, reverse=True)
+		self.taskManager = taskManager # This is passed by 'reference'. Do not alter
 		self.groupByTag = groupByTag
 
 	def _LabelCell(self, task: Task):
@@ -68,6 +73,10 @@ class TaskView():
 		'''
 		TODO example
 		'''
+		tasks = self.taskManager.tasks
+		tasks = sorted(tasks, key=lambda x: x.DaysLeft(), reverse=False)
+		tasks = sorted(tasks, key=lambda task: task.isOpen, reverse=True)
+
 		grid = Table.grid(expand=True)
 
 		if self.groupByTag:
@@ -86,7 +95,7 @@ class TaskView():
 			count = 0
 			style = ''
 
-			for task in self.tasks:
+			for task in tasks:
 				if task.tag not in tags:
 					tags[task.tag] = task.color
 
@@ -94,7 +103,7 @@ class TaskView():
 
 			for tag in tags:
 				grid.add_row(''.join(['[{color}]'.format(color=tags[tag]), tag, '[/{color}]'.format(color=tags[tag])]), '', '○ ' + self.TotalOpen(tag=tag)  + ' ● ' + self.TotalClosed(tag=tag) + ' ⦸ ' + self.TotalHidden(tag=tag), style='underline {color}'.format(color=tags[tag]))
-				for task in self.tasks:
+				for task in tasks:
 					if tag == task.tag:
 						count += 1
 						if count % 2:
@@ -120,11 +129,11 @@ class TaskView():
 		'''
 		count = 0
 		if tag == None:
-			for task in self.tasks:
+			for task in self.taskManager.tasks:
 				if task.isOpen == False:
 					count += 1
 		else:
-			for task in self.tasks:
+			for task in self.taskManager.tasks:
 				if task.isOpen == False and task.tag == tag:
 					count += 1
 		return str(count).zfill(2)
@@ -135,11 +144,11 @@ class TaskView():
 		'''
 		count = 0
 		if tag == None:
-			for task in self.tasks:
+			for task in self.taskManager.tasks:
 				if task.isOpen == True:
 					count += 1
 		else:
-			for task in self.tasks:
+			for task in self.taskManager.tasks:
 				if task.isOpen == True and task.tag == tag:
 					count += 1
 		return str(count).zfill(2)
@@ -150,11 +159,11 @@ class TaskView():
 		'''
 		count = 0
 		if tag == None:
-			for task in self.tasks:
+			for task in self.taskManager.tasks:
 				if task.isHidden == True:
 					count += 1
 		else:
-			for task in self.tasks:
+			for task in self.taskManager.tasks:
 				if task.isHidden == True and task.tag == tag:
 					count += 1
 		return str(count).zfill(2)

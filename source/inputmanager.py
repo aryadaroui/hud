@@ -7,14 +7,17 @@ from rich.console import ConsoleRenderable
 from rich.table import Table
 from rich.live import Live
 
+from taskmanager import TaskManager
+
 
 class InputManager():
 	'''
 	docstring
 	'''
-	def __init__(self) -> None:
+	def __init__(self, taskManager: TaskManager) -> None:
 		self.userInput = ''
-		self.output = 'Howdy your input was '
+		self.output = ''
+		self.taskManager = taskManager
 
 	def IO_Prompt(self):
 		'''
@@ -23,7 +26,7 @@ class InputManager():
 		self.userInput = ''
 		loop = True
 
-		i, o, e = select.select( [sys.stdin], [], [], 10 ) # nonblocking input
+		i, o, e = select.select( [sys.stdin], [], [], 3600) # nonblocking input. last arg is timeout time in seconds
 
 		# print(">")
 
@@ -32,8 +35,8 @@ class InputManager():
 			self._ExecuteInput(self.userInput)
 			# live.refresh()
 			# print("good", userInput)
-		# else:
-		# 	self.output = 'no input'
+		else:
+			self.output = ''
 		# 	# live.refresh()
 		# 	# print("bad")
 		if self.userInput == 'exit':
@@ -59,8 +62,54 @@ class InputManager():
 		'''
 		docstring
 		'''
-		inputString.split()
+		class Mode():
+			label = 'label'
+			tag = 'tag'
+			due = 'due'
 
+		mode = Mode.label
+		label = ''
+		tag = ''
+		due = ''
+		items = inputString.lower().split()
+		command = items.pop(0)
+
+		# Parse arguments
+		for item in items:
+			if item[0] == '#':
+				mode = Mode.tag
+				item = item[1:]
+			if item[0] == '@':
+				mode = Mode.due
+				item = item[1:]
+			
+			if mode == Mode.label:
+				label += item + ' '
+			elif mode == Mode.tag:
+				tag += item + ' '
+			elif mode == Mode.due:
+					due += item + ' '
+
+		label = label.strip()
+		tag = tag.strip()
+		due = due.strip()
+
+		if command == 'add':
+			self.output = self.taskManager.Add(label, tag, due)
+		elif command == 'close':
+			self.output = self.taskManager.Close(label, tag)
+		elif command == 'open':
+			self.output = 'open'
+		elif command == 'delete':
+			self.output = self.taskManager.Delete(label, tag)
+		elif command == 'toggle':
+			# self.output = 'toggle'
+			self.taskManager.Toggle(label, tag)
+		else:
+			self.output = 'bad command'
+
+
+		
 
 
 	def RandomEmoji(happy=True):

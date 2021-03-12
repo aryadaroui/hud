@@ -5,7 +5,7 @@ class Task():
 	'''
 	
 	'''
-	def __init__(self, label: str, tag: str, due: str, isOpen: bool, color=None):
+	def __init__(self, label: str, tag: str, due: str, isOpen=True, color=None):
 		self.label = label
 		self.tag = tag
 		self.color = color
