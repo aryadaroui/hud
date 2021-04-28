@@ -24,6 +24,8 @@ from taskview import *
 import time
 # from datetime import datetime
 
+from inputadvanced import inputAdv
+
 
 import sys
 import select
@@ -91,14 +93,28 @@ class LiveLayoutView():
 		# print(self.RichLayout())
 		# while True:
 
+		response = ''
+		initial = ''
+		timedOut = False
+
 		console = Console()
 
 		with Live(console=console, auto_refresh=False, screen=True, vertical_overflow='ellipsis', redirect_stdout=False, redirect_stderr=False) as live:
 			# term.inkey(timeout=5)
 			live.update(self.RichLayout(), refresh=True)
-			while self.loop:
-				self.loop = self.inputManager.IO_Prompt() # returns false if user inputs exit. TODO: this isn't an explicit way of showing IO is being done here. should change.
+
+			while response != 'exit':
+				response, timedOut = inputAdv('', initial, 3600)
+				if timedOut:
+					initial = response
+				else:
+					initial = ''
+					self.inputManager._ExecuteInput(response.strip())
 				live.update(self.RichLayout(), refresh=True)
+
+			# while self.loop:
+			# 	self.loop = self.inputManager.IO_Prompt() # returns false if user inputs exit. TODO: this isn't an explicit way of showing IO is being done here. should change.
+			# 	live.update(self.RichLayout(), refresh=True)
 
 
 

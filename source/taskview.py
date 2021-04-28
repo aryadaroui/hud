@@ -48,10 +48,10 @@ class TaskView():
 		'''
 		████
 		'''
+		
 		#TODO fix widths and shape for > 14 days
 		daysLeft = task.DaysLeft()
 		string = ''
-
 
 		if daysLeft < 0 and task.isOpen:
 			string = "[underline][deep_pink2]▏    LATE    ▕[/deep_pink2][/underline]"

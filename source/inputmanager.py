@@ -11,17 +11,30 @@ from taskmanager import TaskManager
 
 
 class InputManager():
-	'''
-	docstring
+	'''Manages incoming inputs from the console.
+
+	### Attributes
+	`userInput`: string of the input from the user
+	`output`: the output the console to print
+	`taskManager`: the taskmanager used throughout the program as single source of truth. passed by 'reference'
+
+	### Methods
+	`IO_Prompt()`
+	`RichGrid()`
+	`_ExecuteInput(inputString: str)`
+	`RandomEmoji()`
 	'''
 	def __init__(self, taskManager: TaskManager) -> None:
+		'''
+		Initializes object
+		`taskManager`: 
+		'''
 		self.userInput = ''
 		self.output = ''
 		self.taskManager = taskManager
 
 	def IO_Prompt(self):
 		'''
-		docstring
 		'''
 		self.userInput = ''
 		loop = True
@@ -94,12 +107,10 @@ class InputManager():
 		tag = tag.strip()
 		due = due.strip()
 
-		if command == 'add':
+		if command == 'add' or command == 'open':
 			self.output = self.taskManager.Add(label, tag, due)
 		elif command == 'close':
 			self.output = self.taskManager.Close(label, tag)
-		elif command == 'open':
-			self.output = 'open'
 		elif command == 'delete':
 			self.output = self.taskManager.Delete(label, tag)
 		elif command == 'toggle':

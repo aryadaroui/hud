@@ -21,6 +21,7 @@ class CalendarView():
 	def _MonthCell(self) -> str:
 		monthLine = ''
 
+
 		for dayOffset in range(self.daysOut):
 			# print(day)
 			day = datetime.datetime.today() + datetime.timedelta(days=dayOffset)
@@ -49,8 +50,8 @@ class CalendarView():
 
 		return ' ' + dayLine
 
-	@staticmethod
-	def _ProgressCell(task: Task):
+
+	def _ProgressCell(self, task: Task):
 		'''
 		docstring
 		'''
@@ -64,6 +65,7 @@ class CalendarView():
 		return string
 
 	# TODO: handle overdue tasks
+	# NOTE:
 	def RichGrid(self):
 		'''
 		docstring
@@ -81,7 +83,7 @@ class CalendarView():
 
 		for task in tasks:
 			if task.DaysLeft() < self.daysOut - 1 and task.isOpen:			
-				grid.add_row(task.label, self._ProgressCell(task), style="grey85")
+				grid.add_row(task.label, self._ProgressCell(task))
 		# grid.add_row(" ", " " + self._DayCell()+ '')
 		# grid.add_row(" ", " " + self._MonthCell()+ '')
 

@@ -2,24 +2,16 @@ from rich import traceback
 from task import Task
 from typing import List
 import re
-traceback.install()
 from rich import print
-
+traceback.install()
 
 class TagManager():
 	'''
 	docstring
 	'''
-
-
-
 	def __init__(self):
-		self.filePath = "/Users/aryadaroui/Documents/GitHub/hud/tags.txt"
+		self.filePath = "/Users/aryadaroui/Documents/Code/hud/tags.txt"
 		self.tags = self.LoadTags()
-
-	# def __init__(self, tasks: List[Task]):
-	# 	self.filePath = "/Users/aryadaroui/Documents/GitHub/hud/tags.txt"
-	# 	self.tags = self.LoadTags()
 
 	def LoadTags(self) -> dict:
 		'''
@@ -37,7 +29,6 @@ class TagManager():
 			if items != []: # ignore empty lines
 				tags[items[0]] = items[1]
 
-
 		return tags
 
 
@@ -54,9 +45,6 @@ class TagManager():
 		docstring
 		'''
 		pass
-
-
-		
 
 	def UpdateTags(self, tasks: List[Task]):
 		'''

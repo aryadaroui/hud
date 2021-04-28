@@ -12,7 +12,7 @@ class TaskManager():
 	docstring
 	'''
 	def __init__(self):
-		self.filePath = "/Users/aryadaroui/Documents/GitHub/hud/tasks.txt"
+		self.filePath = "/Users/aryadaroui/Documents/Code/hud/tasks.txt"
 		self.tasks = self.LoadTasks()
 		self.tagManager = TagManager()
 		self.LoadAndSetTasksColors()
@@ -102,7 +102,7 @@ class TaskManager():
 				self.tasks[self.tasks.index(filteredTasks[0])].isOpen = False
 				# self.tasks.remove(filteredTasks[0])
 				self.SaveTasks(self.tasks)
-				status = "clsed task: {task}".format(task=filteredTasks[0])
+				status = "closed task: {task}".format(task=filteredTasks[0])
 			elif len(filteredTasks) > 1:
 				status = "need tag to clarify"
 			else:
@@ -119,38 +119,11 @@ class TaskManager():
 				self.SaveTasks(self.tasks)
 			else:
 				status = "could not find label"
-
 		return status
 
-	def Toggle(self, label, tag):
+	def Hid(self):
 		'''
-		docstring
-		'''
-		count = 0
-		for task in self.tasks:
-			pass
-
-	def DeleteOld(self):
-		'''
-		docstring
-		'''
-		pass
-
-	def DeleteAll(self):
-		'''
-		docstring
-		'''
-		pass
-
-	def HideOld(self):
-		'''
-		docstring
-		'''
-		pass
-
-	def HideClosed(self):
-		'''
-		docstring
+		Hide old and hide
 		'''
 		pass
 
@@ -163,8 +136,6 @@ class TaskManager():
 	def LoadTasks(self) -> List[Task]:
 		with open(self.filePath) as file:
 			lines = file.readlines()
-
-			# print(lines)
 
 		tasks = [] # type: list[Task]
 
