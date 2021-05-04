@@ -41,7 +41,10 @@ class TaskView():
 
 
 	def _DayCell(self, task: Task):
-		return str(task.DaysLeft()+1).zfill(2) + " days   " + task.due.strftime('%b %d')
+		if task.isOpen:
+			return str(task.DaysLeft()+1).zfill(2) + " days   " + task.due.strftime('%b %d')
+		else:
+			return ""
 
 
 	def _ProgressCell(self, task: Task):
